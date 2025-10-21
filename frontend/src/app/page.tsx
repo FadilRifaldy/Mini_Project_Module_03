@@ -5,7 +5,7 @@ import UpcomingEvents from "@/components/upcoming";
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <section className="relative h-[638px] overflow-hidden">
+      <section className="relative h-[91vh] overflow-hidden">
         <video
           className="absolute inset-0 w-full h-full object-cover"
           src="/videos/banner.mp4"
