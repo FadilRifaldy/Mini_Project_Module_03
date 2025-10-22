@@ -4,10 +4,7 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <footer className="relative z-10 bg-[#000000] text-gray-300 font-audiowide border-t border-gray-800">
-      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 sm:px-10 py-16 flex flex-col md:flex-row md:justify-between md:items-start gap-y-12 md:gap-y-0 md:gap-x-10 lg:gap-x-16">
-        
-        {/* Brand */}
         <div className="w-full md:w-[28%] lg:w-[26%]">
           <div>
             <Image
@@ -42,12 +39,18 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/sign-up" className="hover:text-[#FF00FF] transition-colors">
+              <Link
+                href="/sign-up"
+                className="hover:text-[#FF00FF] transition-colors"
+              >
                 Sign Up
               </Link>
             </li>
             <li>
-              <Link href="/sign-in" className="hover:text-[#FF00FF] transition-colors">
+              <Link
+                href="/sign-in"
+                className="hover:text-[#FF00FF] transition-colors"
+              >
                 Sign In
               </Link>
             </li>
@@ -67,17 +70,26 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/create-events" className="hover:text-[#FF00FF] transition-colors">
+              <Link
+                href="/create-events"
+                className="hover:text-[#FF00FF] transition-colors"
+              >
                 Create Event
               </Link>
             </li>
             <li>
-              <Link href="/my-tickets" className="hover:text-[#FF00FF] transition-colors">
+              <Link
+                href="/my-tickets"
+                className="hover:text-[#FF00FF] transition-colors"
+              >
                 My Tickets
               </Link>
             </li>
             <li>
-              <Link href="/pricing" className="hover:text-[#FF00FF] transition-colors">
+              <Link
+                href="/pricing"
+                className="hover:text-[#FF00FF] transition-colors"
+              >
                 Pricing
               </Link>
             </li>
@@ -89,12 +101,18 @@ export default function Footer() {
           <h3 className="text-lg font-semibold text-white mb-5">Support</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link href="/faq" className="hover:text-[#FF00FF] transition-colors">
+              <Link
+                href="/faq"
+                className="hover:text-[#FF00FF] transition-colors"
+              >
                 FAQ
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:text-[#FF00FF] transition-colors">
+              <Link
+                href="/contact"
+                className="hover:text-[#FF00FF] transition-colors"
+              >
                 Contact
               </Link>
             </li>
@@ -180,7 +198,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
       <div className="border-t border-gray-800 py-6 text-center text-sm text-gray-500 tracking-wide">
         © {new Date().getFullYear()} F&F Event. All rights reserved.
       </div>

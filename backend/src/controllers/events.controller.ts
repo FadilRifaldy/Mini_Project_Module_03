@@ -32,20 +32,45 @@ export const createEvents = async (
   }
 };
 
-//Read
-export const getEvents = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+//read
+// search debounce
+export const getEvents = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const getAll = await prisma.event.findMany();
+    const search = req.query.search as string;
 
-    res.status(200).send(getAll);
+    const events = await prisma.event.findMany({
+      where: search
+        ? {
+            OR: [
+              { title: { contains: search, mode: "insensitive" } },
+              // { content: { contains: search, mode: "insensitive" } },
+              // { location: { contains: search, mode: "insensitive" } },
+            ],
+          }
+        : {},
+    });
+
+    res.status(200).json(events);
   } catch (error) {
     next(error);
   }
 };
+
+
+//Read
+// export const getEvents = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const getAll = await prisma.event.findMany();
+
+//     res.status(200).send(getAll);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 
 //Update
