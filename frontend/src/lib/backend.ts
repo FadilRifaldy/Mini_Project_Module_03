@@ -2,7 +2,7 @@ import axios from "axios";
 
 // const API_KEY = "2e79acdcf95f4b4a9fafddc26d3cefc8";
 // // const BASE_URL = "https://newsapi.org/v2"
-const BASE_URL = "http:localhost:8500/event/all";
+const BASE_URL = "http://localhost:8500/event/all";
 
 // interface IArticle{
 //     title:string
@@ -26,17 +26,16 @@ export interface IEvent {
 }
 
 
-export async function getNewsHeadline(): Promise<IEvent[]> {
+export async function getNewsHeadline(search?: string): Promise<IEvent[]> {
   try {
-    // const res=await axios.get(`${BASE_URL}/top-headlines?country=us&apiKey=${API_KEY}`
+    const url = search
+      ? `${BASE_URL}?search=${encodeURIComponent(search)}`
+      : BASE_URL;
 
-    // )
-
-    const res = await axios.get(`${BASE_URL}`);
-
+    const res = await axios.get(url);
     return res.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return [];
   }
 }

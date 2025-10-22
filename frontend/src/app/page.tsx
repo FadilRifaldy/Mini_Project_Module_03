@@ -5,7 +5,7 @@ import UpcomingEvents from "@/components/upcoming";
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <section className="relative h-[91vh] overflow-hidden">
+      <section className="relative h-[87.5vh] overflow-hidden">
         <video
           className="absolute inset-0 w-full h-full object-cover"
           src="/videos/banner.mp4"
@@ -38,7 +38,7 @@ export default function Home() {
             </h2>
 
             <Link
-              href="/blog"
+              href="/discover-events"
               className="text-blue-600 hover:text-blue-800 font-medium text-sm sm:text-base flex items-center justify-center gap-2 hover:scale-105 transition-transform duration-500"
             >
               See All Events

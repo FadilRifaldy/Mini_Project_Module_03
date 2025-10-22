@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { getUpcomingEvents } from "@/lib/backend"; // ganti fungsi ini sesuai data event-mu
+import { getUpcomingEvents } from "@/lib/backend"; 
 
 export default async function UpcomingEvents() {
-  const events = await getUpcomingEvents(); // Ambil data event dari backend
+  const events = await getUpcomingEvents(); 
 
   return (
     <div className="max-w-7xl mx-auto px-7">
