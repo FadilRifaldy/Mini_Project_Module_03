@@ -89,9 +89,24 @@ export const getEvents = async (
 //   next: NextFunction
 // ) => {
 //   try {
-//     const getAll = await prisma.event.findMany();
+//     const createEvent = await prisma.event.create({
+//       data: {
+//         title: req.body.title,
+//         imgUrl: req.body.imgUrl,
+//         content: req.body.content,
+//         date: new Date(req.body.date),
+//         location: req.body.location,
+//         price:req.body.price,
+//         totalTickets:req.body.totalTickets,
+//         availableTickets:req.body.availableTickets
 
-//     res.status(200).send(getAll);
+//       },
+//     });
+
+//     res.status(200).send({
+//       message: "Create event success",
+//       result: createEvent,
+//     });
 //   } catch (error) {
 //     next(error);
 //   }
@@ -129,6 +144,18 @@ export const getEventByID = async (
     next(error);
   }
 };
+
+//     const events = await prisma.event.findMany({
+//       where: search
+//         ? {
+//             OR: [
+//               { title: { contains: search, mode: "insensitive" } },
+//               // { content: { contains: search, mode: "insensitive" } },
+//               // { location: { contains: search, mode: "insensitive" } },
+//             ],
+//           }
+//         : {},
+//     });
 
 //Update
 export const updateEvents = async (
