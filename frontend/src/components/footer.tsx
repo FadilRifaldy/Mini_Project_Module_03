@@ -12,7 +12,7 @@ export default function Footer() {
               alt="Logo Footer"
               width={300}
               height={0}
-              className="hover:brightness-150 hover:drop-shadow-[0_0_6px_#ff00ff] transition-all duration-300"
+              className="hover:scale-105 cursor-pointer hover:brightness-150 hover:drop-shadow-[0_0_6px_#ff00ff] transition-all duration-300"
             />
           </div>
           <p className="text-sm text-gray-400 leading-relaxed">
@@ -149,7 +149,7 @@ export default function Footer() {
                 alt="Facebook"
                 width={45}
                 height={0}
-                className="hover:brightness-150 hover:drop-shadow-[0_0_6px_#ff00ff] transition-all duration-300"
+                className="hover:brightness-150 hover:drop-shadow-[0_0_6px_#00FFFF] transition-all duration-300"
               />
             </Link>
 
@@ -163,7 +163,7 @@ export default function Footer() {
                 alt="Twitter"
                 width={45}
                 height={0}
-                className="hover:brightness-150 hover:drop-shadow-[0_0_6px_#ff00ff] transition-all duration-300"
+                className="hover:brightness-150 hover:drop-shadow-[0_0_6px_#00FFFF] transition-all duration-300"
               />
             </Link>
 
@@ -177,7 +177,7 @@ export default function Footer() {
                 alt="Instagram"
                 width={45}
                 height={0}
-                className="hover:brightness-150 hover:drop-shadow-[0_0_6px_#ff00ff] transition-all duration-300"
+                className="hover:brightness-150 hover:drop-shadow-[0_0_6px_#00FFFF] transition-all duration-300"
               />
             </Link>
 
@@ -191,7 +191,7 @@ export default function Footer() {
                 alt="Youtube"
                 width={45}
                 height={0}
-                className="hover:brightness-150 hover:drop-shadow-[0_0_6px_#ff00ff] transition-all duration-300"
+                className="hover:brightness-150 hover:drop-shadow-[0_0_6px_#00FFFF] transition-all duration-300"
               />
             </Link>
           </div>

@@ -44,14 +44,55 @@ model Event {
   title            String
   imgUrl           String?
   content          String?
-  startDate        DateTime    
-  endDate          DateTime    
+  startDate        DateTime
+  endDate          DateTime
   location         String
   price            Float
   totalTickets     Int
   availableTickets Int
   createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
+  updatedAt        DateTime    @updatedAt
+  Voucher          Voucher?    @relation("EventVoucher")
+  Transaction      Transaction[]
+}
+
+model Voucher {
+  id         String   @id @default(uuid())
+  discount   Decimal  @db.Decimal(5, 2)
+  quantity   Int      @default(1)
+  createdAt  DateTime @default(now())
+  validFrom  DateTime?
+  validUntil DateTime?
+  eventId    String   @unique
+  Event      Event    @relation("EventVoucher", fields: [eventId], references: [id])
+}
+
+enum Statuses{
+  PENDING
+  SUCCESS
+  FAILED
+  CANCELLED
+}
+
+enum PaymentMethod{
+  TRANSFER
+  CREDIT
+  EWALLET
+  VIRTUAL
+}
+
+model Transaction{
+  id String @id @default(uuid())
+  // quantity Int
+  totalPrice Int
+  transactionStatuses Statuses? @default(PENDING)
+  paymentMethod PaymentMethod?
+  paymentProof String
+  transactionDate DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  eventId String
+  Event Event @relation(fields: [eventId], references: [id])
 }
 
 enum UserType {
