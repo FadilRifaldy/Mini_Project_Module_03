@@ -2,12 +2,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { loginUser, verifyToken } from "@/lib/auth-backend";
+import useAuthStore from "../stores/authStore";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [showPass, setShowPass] = useState(false);
-  const [user, setUser] = useState(null);
+  const setUser = useAuthStore((s) => s.setUser);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,9 +22,9 @@ export default function SignInPage() {
       alert(res.message);
     } else {
       const userRes = await verifyToken();
-      setUser(userRes.user);
       alert(res.message);
-      //   router.push("/");
+      setUser(userRes.user.username, userRes.user.role);
+      router.replace("/");
     }
   };
 
@@ -48,16 +49,6 @@ export default function SignInPage() {
               Sign In Terminal
             </div>
           </div>
-          {user ? (
-            <div className="text-center">
-              <h1 className="text-2xl font-bold text-green-600">
-                Welcome, {user.role}!
-              </h1>
-              <p>Email: {user.email}</p>
-            </div>
-          ) : (
-            ""
-          )}
         </div>
 
         <form
