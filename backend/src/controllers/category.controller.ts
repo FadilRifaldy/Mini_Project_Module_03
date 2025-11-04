@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import prisma from "../prisma";
-import { Categories} from "../generated/prisma";
+import { Categories } from "../generated/prisma";
 
 //get all categories
 export const getAllCategories = async (
@@ -25,7 +25,6 @@ export const getAllCategories = async (
     next(error);
   }
 };
-
 
 //get event by category
 export const getEventsByCategory = async (

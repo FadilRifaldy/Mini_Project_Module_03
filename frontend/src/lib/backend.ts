@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import { Statuses } from "./statuses";
 
 const BASE_URL = "http://localhost:8500";
 
@@ -268,7 +269,8 @@ export async function createTransaction(data: {
   try {
     const res = await axios.post(
       `${BASE_URL}/transactions/create/transaction`,
-      data
+      data,
+      { withCredentials: true }
     );
     return res.data;
   } catch (error: unknown) {
@@ -283,5 +285,147 @@ export async function createTransaction(data: {
     }
 
     throw new Error("Terjadi kesalahan tak terduga");
+  }
+}
+
+export async function validateCoupon(userId: string, eventId: string) {
+  try {
+    const res = await axios.post(
+      `${BASE_URL}/coupons/coupon/validate`,
+      { userId, eventId },
+      { withCredentials: true }
+    );
+
+    const data = res.data;
+
+    return {
+      success: data.success ?? true,
+      discount: data.result?.discount ?? 0,
+      finalPrice: data.result?.finalPrice ?? 0,
+      couponId: data.result?.couponId ?? null, // ⭐ Tambah couponId
+      message: data.message ?? "",
+    };
+  } catch (error) {
+    const err = error as AxiosError<{ message?: string }>;
+    const message =
+      err.response?.data?.message || "Kupon tidak valid atau sudah digunakan";
+
+    return {
+      success: false,
+      error: message,
+    };
+  }
+}
+
+export async function validateReferralPoint(userId: string, eventId: string) {
+  try {
+    const res = await axios.post(
+      `${BASE_URL}/referrals/referral/validate`,
+      { userId, eventId },
+      { withCredentials: true }
+    );
+
+    const data = res.data;
+
+    return {
+      success: data.success ?? true,
+      discount: data.result?.discount ?? 0,
+      finalPrice: data.result?.finalPrice ?? 0,
+      referralId: data.result?.referralId ?? null, // ⭐ Tambah referralId
+      message: data.message ?? "",
+    };
+  } catch (error) {
+    const err = error as AxiosError<{ message?: string }>;
+    const message =
+      err.response?.data?.message ||
+      "Referral point tidak valid atau sudah digunakan";
+
+    return {
+      success: false,
+      error: message,
+    };
+  }
+}
+
+// export enum Statuses {
+//   PENDING = "PENDING",
+//   SUCCESS = "SUCCESS",
+//   FAILED = "FAILED",
+//   CANCELLED = "CANCELLED",
+// }
+
+// export const statusColors: Record<Statuses, string> = {
+//   [Statuses.PENDING]: "bg-yellow-500 text-black",
+//   [Statuses.SUCCESS]: "bg-green-600 text-white",
+//   [Statuses.FAILED]: "bg-red-600 text-white",
+//   [Statuses.CANCELLED]: "bg-gray-600 text-white",
+// };
+
+// interface ITicket {
+//   id: string;
+//   eventTitle: string;
+//   startDate: string;
+//   endDate: string;
+//   totalPrice: number;
+//   status: string;
+//   purchasedAt: string;
+// }
+
+// interface IMyTicketsResponse {
+//   success: boolean;
+//   tickets: ITicket[];
+// }
+
+// export async function getMyTickets(): Promise<IMyTicketsResponse> {
+//   try {
+//     const res = await axios.get<IMyTicketsResponse>(`${BASE_URL}/ticket/all`, {
+//       withCredentials: true, // kirim cookie JWT
+//     });
+//     return res.data;
+//   } catch (err: unknown) {
+//     if (axios.isAxiosError(err)) {
+//       console.error("Error fetching tickets:", err.response?.data || err.message);
+//     } else if (err instanceof Error) {
+//       console.error("Unexpected error:", err.message);
+//     } else {
+//       console.error("Unknown error:", err);
+//     }
+//     return { success: false, tickets: [] };
+//   }
+// }
+
+export interface ITicket {
+  id: string;
+  eventTitle: string;
+  startDate: string;
+  endDate: string;
+  totalPrice: number;
+  status: Statuses;
+  purchasedAt: string;
+}
+
+interface IMyTicketsResponse {
+  success: boolean;
+  tickets: ITicket[];
+}
+
+export async function getMyTickets(): Promise<IMyTicketsResponse> {
+  try {
+    const res = await axios.get<IMyTicketsResponse>(`${BASE_URL}/tickets/ticket/all`, {
+      withCredentials: true, 
+    });
+
+    
+    const mappedTickets = (res.data.tickets ?? []).map((t) => ({
+      ...t,
+      status: Object.values(Statuses).includes(t.status as Statuses)
+        ? (t.status as Statuses)
+        : Statuses.PENDING,
+    }));
+
+    return { success: res.data.success, tickets: mappedTickets };
+  } catch (err: unknown) {
+    console.error("Gagal mengambil tiket:", err);
+    return { success: false, tickets: [] };
   }
 }

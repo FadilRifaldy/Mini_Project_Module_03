@@ -40,9 +40,18 @@ export async function verifyToken() {
     const res = await axios.get("http://localhost:8500/auth/verify-token", {
       withCredentials: true,
     });
-    return res.data;
+    
+    
+    return { 
+      user: {
+        id: res.data.user.userId, 
+        email: res.data.user.email,
+        role: res.data.user.role,
+        username: res.data.user.username,
+      }
+    };
   } catch (error) {
-    console.error(error);
-    return { message: "Token Invalid" };
+    console.error("Verify token error:", error);
+    return null; 
   }
 }
