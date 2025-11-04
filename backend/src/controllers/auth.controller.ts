@@ -102,6 +102,21 @@ export async function logout(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+// export async function verifyToken(
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) {
+//   try {
+//     const token = req.cookies.authToken;
+//     if (!token) return res.status(401).json({ message: "Not authenticated" });
+//     const decoded = jwt.verify(token, "rahasia");
+//     res.json({ user: decoded });
+//   } catch (err) {
+//     res.status(401).json({ message: "Invalid or expired token" });
+//   }
+// }
+
 export async function verifyToken(
   req: Request,
   res: Response,
@@ -110,8 +125,15 @@ export async function verifyToken(
   try {
     const token = req.cookies.authToken;
     if (!token) return res.status(401).json({ message: "Not authenticated" });
+
     const decoded = jwt.verify(token, "rahasia");
-    res.json({ user: decoded });
+    (req as any).user = decoded;
+
+    if (req.path === "/verify" || req.originalUrl.includes("/verify")) {
+      return res.json({ user: decoded });
+    }
+
+    next();
   } catch (err) {
     res.status(401).json({ message: "Invalid or expired token" });
   }

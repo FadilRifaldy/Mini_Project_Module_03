@@ -1,7 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import prisma from "../prisma";
 import {PaymentMethod } from "../generated/prisma";
+import jwt from "jsonwebtoken";
+import type { JwtPayload } from "jsonwebtoken";
 
+interface UserJWTPayload extends JwtPayload {
+  username: string;
+  email: string;
+  role: string;
+  userId: string;
+}
 
 // create transaction
 export const createTransaction = async (req: Request, res: Response) => {
@@ -48,11 +56,20 @@ export const createTransaction = async (req: Request, res: Response) => {
         .status(400)
         .json({ success: false, message: "Voucher sudah habis" });
     }
+    const authToken = req.cookies.authToken;
+        if (!authToken) {
+          return res
+            .status(401)
+            .json({ message: "Access Denied. No Token Provided" });
+        }
+    
+        const user = jwt.verify(authToken, "rahasia") as UserJWTPayload;
 
     
     const [transactionResult] = await prisma.$transaction([
       prisma.transaction.create({
         data: {
+          userId:user.userId,
           eventId,
           totalPrice: Number(totalPrice) || event.price,
           paymentMethod: paymentMethod || PaymentMethod.TRANSFER,

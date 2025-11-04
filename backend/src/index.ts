@@ -9,8 +9,11 @@ import categoryRouter from "./routers/category.route";
 import locationRouter from "./routers/location.route";
 import transactionRouter from "./routers/transaction.route";
 import voucherRouter from "./routers/voucher.route";
+import couponRouter from "./routers/coupon.route";
+import referralRouter from "./routers/referralpoint.route";
 import profileRouter from "./routers/profile.route";
 import dashboardRouter from "./routers/dashboard.router";
+import ticketRouter from "./routers/ticket.route"
 
 const PORT = process.env.PORT;
 
@@ -35,6 +38,10 @@ app.use("/locations", locationRouter);
 app.use("/transactions", transactionRouter);
 app.use("/vouchers", voucherRouter);
 app.use("/dashboard", dashboardRouter);
+app.use("/coupons", couponRouter);
+app.use("/referrals", referralRouter);
+app.use("/tickets", ticketRouter)
+
 
 // error middleware
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
