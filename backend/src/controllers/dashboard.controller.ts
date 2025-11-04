@@ -11,7 +11,7 @@ interface UserJWTPayload extends JwtPayload {
   userId: string;
 }
 
-export async function getProfile(
+export async function GetEventsByEO(
   req: Request,
   res: Response,
   next: NextFunction
@@ -25,18 +25,6 @@ export async function getProfile(
     }
 
     const user = jwt.verify(authToken, "rahasia") as UserJWTPayload;
-
-    const profile = await prisma.user.findUnique({
-      where: { email: user.email },
-    });
-
-    res.status(200).json({
-      username: profile?.username,
-      email: profile?.email,
-      refCode: profile?.referralCode,
-      role: profile?.type,
-      profilePic: profile?.photoProfile,
-    });
   } catch (error) {
     next(error);
   }
