@@ -19,6 +19,7 @@ export interface IEvent {
   quantity: number;
   createdAt?: string;
   updatedAt?: string;
+  userId: string;
 }
 
 export interface IVoucher {
@@ -172,6 +173,16 @@ export async function getEventById(id: string) {
   }
 }
 
+export async function getTransactionById(id: string) {
+  try {
+    const res = await axios.get(`${BASE_URL}/dashboard/${id}`);
+    return res.data.data;
+  } catch (error) {
+    console.error("Error fetching event detail:", error);
+    return null;
+  }
+}
+
 export type CreateEventData = Omit<IEvent, "id" | "createdAt" | "updatedAt">;
 export const createEvent = async (data: CreateEventData): Promise<IEvent> => {
   try {
@@ -284,4 +295,14 @@ export async function createTransaction(data: {
 
     throw new Error("Terjadi kesalahan tak terduga");
   }
+}
+
+export async function updateTransactionStatus(id: string, status: string) {
+  const res = await axios.patch(
+    "http://localhost:8500/dashboard/update-transaction",
+    { id, status }
+  );
+
+  if (!res) throw new Error("Failed to update transaction");
+  return res.data;
 }

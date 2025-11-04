@@ -10,6 +10,7 @@ import locationRouter from "./routers/location.route";
 import transactionRouter from "./routers/transaction.route";
 import voucherRouter from "./routers/voucher.route";
 import profileRouter from "./routers/profile.route";
+import dashboardRouter from "./routers/dashboard.router";
 
 const PORT = process.env.PORT;
 
@@ -33,6 +34,7 @@ app.use("/categories", categoryRouter);
 app.use("/locations", locationRouter);
 app.use("/transactions", transactionRouter);
 app.use("/vouchers", voucherRouter);
+app.use("/dashboard", dashboardRouter);
 
 // error middleware
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
