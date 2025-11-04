@@ -65,7 +65,12 @@ export async function login(req: Request, res: Response, next: NextFunction) {
     }
 
     const authToken = jwt.sign(
-      { username: userExist?.username, email, role: userExist?.type },
+      {
+        username: userExist?.username,
+        email,
+        role: userExist?.type,
+        userId: userExist?.id,
+      },
       "rahasia",
       {
         expiresIn: "1h",
