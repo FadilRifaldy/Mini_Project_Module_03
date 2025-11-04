@@ -143,7 +143,7 @@ export const getEventByID = async (
         id: String(req.params.id),
       },
       include: {
-        Voucher: true, // ✅ tambahkan ini
+        Voucher: true, 
       },
     });
 
