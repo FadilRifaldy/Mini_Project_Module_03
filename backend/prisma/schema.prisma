@@ -54,6 +54,8 @@ model Event {
   updatedAt        DateTime    @updatedAt
   Voucher          Voucher?    @relation("EventVoucher")
   Transaction      Transaction[]
+  User User @relation(fields: [userId],references: [id])
+  userId String
 }
 
 model Voucher {
@@ -110,6 +112,7 @@ model User {
   referralCode String @unique @default(uuid())
   Coupon Coupon[]
   ReferralPoint ReferralPoint[]
+  Events Event[]
 }
 
 model ReferralPoint {
