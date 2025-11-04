@@ -25,6 +25,7 @@ export async function GetEventsByEO(
     }
 
     const user = jwt.verify(authToken, "rahasia") as UserJWTPayload;
+    const eventsByEO = await prisma.event.findMany({ where: {} });
   } catch (error) {
     next(error);
   }

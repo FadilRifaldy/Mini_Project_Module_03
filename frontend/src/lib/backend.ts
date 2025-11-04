@@ -175,7 +175,9 @@ export async function getEventById(id: string) {
 export type CreateEventData = Omit<IEvent, "id" | "createdAt" | "updatedAt">;
 export const createEvent = async (data: CreateEventData): Promise<IEvent> => {
   try {
-    const response = await axios.post(`${BASE_URL}/events/create`, data);
+    const response = await axios.post(`${BASE_URL}/events/create`, data, {
+      withCredentials: true,
+    });
     return response.data.result;
   } catch (err: unknown) {
     if (axios.isAxiosError(err)) {

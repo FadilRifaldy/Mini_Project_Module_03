@@ -1,6 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import prisma from "../prisma";
 import { Categories, PaymentMethod } from "../generated/prisma";
+import jwt from "jsonwebtoken";
+import type { JwtPayload } from "jsonwebtoken";
+
+interface UserJWTPayload extends JwtPayload {
+  username: string;
+  email: string;
+  role: string;
+  userId: string;
+}
 
 // create event + voucher
 export const createEvents = async (
@@ -9,6 +18,15 @@ export const createEvents = async (
   next: NextFunction
 ) => {
   try {
+    const authToken = req.cookies.authToken;
+    if (!authToken) {
+      return res
+        .status(401)
+        .json({ message: "Access Denied. No Token Provided" });
+    }
+
+    const user = jwt.verify(authToken, "rahasia") as UserJWTPayload;
+
     const createEvent = await prisma.event.create({
       data: {
         category: req.body.category,
@@ -36,6 +54,7 @@ export const createEvents = async (
                 },
               }
             : undefined,
+        userId: user.userId,
       },
       include: {
         Voucher: true, // agar response include voucher
