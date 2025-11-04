@@ -9,6 +9,7 @@ import categoryRouter from "./routers/category.route";
 import locationRouter from "./routers/location.route";
 import transactionRouter from "./routers/transaction.route";
 import voucherRouter from "./routers/voucher.route";
+import profileRouter from "./routers/profile.route";
 
 const PORT = process.env.PORT;
 
@@ -26,7 +27,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/auth", authRouter);
-
+app.use("/profile", profileRouter);
 app.use("/events", eventRouter);
 app.use("/categories", categoryRouter);
 app.use("/locations", locationRouter);

@@ -64,9 +64,13 @@ export async function login(req: Request, res: Response, next: NextFunction) {
       res.status(404).json({ message: "Email atau Password Salah" });
     }
 
-    const authToken = jwt.sign({ email, role: userExist?.type }, "rahasia", {
-      expiresIn: "1h",
-    });
+    const authToken = jwt.sign(
+      { username: userExist?.username, email, role: userExist?.type },
+      "rahasia",
+      {
+        expiresIn: "1h",
+      }
+    );
 
     res
       .status(200)
@@ -77,6 +81,17 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         maxAge: 60 * 60 * 1000,
       })
       .json({ message: "Login Berhasil", user: userExist });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function logout(req: Request, res: Response, next: NextFunction) {
+  try {
+    res
+      .status(200)
+      .clearCookie("authToken")
+      .json({ message: "Logout Successfully" });
   } catch (error) {
     next(error);
   }
