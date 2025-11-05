@@ -1,12 +1,23 @@
 "use client";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-
+import useAuthStore from "../stores/authStore";
+import { useRouter } from "next/navigation";
 import { IEvent } from "@/lib/backend";
 import axios from "axios";
 
 export default function DashboardPage() {
   const [events, setEvents] = useState<IEvent[]>([]);
+  const role = useAuthStore((s) => s.role);
+  const route = useRouter();
+
+  if (role === "") {
+    alert("Kamu Belum Login");
+    route.push("/signin");
+  } else if (role === "Customer") {
+    alert("Unauthorized Access");
+    route.push("/");
+  }
 
   useEffect(() => {
     async function getEventsByEO() {
