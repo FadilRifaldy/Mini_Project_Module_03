@@ -1,6 +1,8 @@
 "use client";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import useAuthStore from "../stores/authStore";
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
   const [username, setUsername] = useState("");
@@ -13,6 +15,13 @@ export default function ProfilePage() {
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [originalName, setOriginalName] = useState("");
+  const role = useAuthStore((s) => s.role);
+  const route = useRouter();
+
+  if (role === "") {
+    alert("Kamu Belum Login");
+    route.push("/signin");
+  }
 
   useEffect(() => {
     async function getProfile() {

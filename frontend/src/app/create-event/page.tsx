@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { createEvent, IEvent, fetchEnumCategories } from "@/lib/backend";
 import Image from "next/image";
+import useAuthStore from "../stores/authStore";
+import { useRouter } from "next/navigation";
 
 type CreateEventData = Omit<IEvent, "id" | "createdAt" | "updatedAt"> & {
   validFrom?: string;
@@ -28,6 +30,8 @@ export default function CreateEventPage() {
     validFrom: "",
     validUntil: "",
   });
+  const role = useAuthStore((s) => s.role);
+  const route = useRouter();
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -95,6 +99,14 @@ export default function CreateEventPage() {
       alert("Failed to create event");
     }
   };
+
+  if (role === "") {
+    alert("Kamu Belum Login");
+    route.push("/signin");
+  } else if (role === "Customer") {
+    alert("Unauthorized Access");
+    route.push("/");
+  }
 
   return (
     <div className="relative font-audiowide min-h-screen flex items-center justify-center text-[#e0e0ff] p-10 overflow-hidden">
